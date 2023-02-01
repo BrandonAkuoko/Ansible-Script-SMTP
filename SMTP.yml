@@ -1,0 +1,18 @@
+---
+- name: "Setting up SMTP Service" #title of the playbook
+  hosts: localhost # the host that will be effected by the script
+  become: yes # command that allows user to become root when running
+
+  tasks: # list of task that will be executed
+  - name: Installing and ensuring SMTP is at its latest state # name of task
+    apt: # function/command that will be used
+      name: postfix # name of the service that is being installed
+      state: latest # even if the service is installed checks to make sure that it is the latest updated version
+  - name: Starting SMTP # name of the task
+    service: # function/command that is being used in this case this is the alias to "systemctl"
+      name: postfix # the service that is being checked
+      state: started # command that starts the service "systemctl start postfix"
+  - name: Enable service postfix, and not touch the state # name of the task
+    service: # the function/command that is going to attempted
+      name: postfix # the name of the service task is being executed for
+      enabled: yes # is used to enable the service upon startup "systemctl enable postfix"
